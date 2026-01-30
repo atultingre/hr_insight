@@ -1,18 +1,9 @@
 // ========================
 // src/pages/Login.jsx
 // ========================
-import React, { useState } from "react";
+import { Alert, Button, Card, Divider, Input, Space, Typography } from "antd";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  Card,
-  Input,
-  Button,
-  Typography,
-  Alert,
-  Space,
-  Divider,
-  ConfigProvider,
-} from "antd";
 import { useAuth } from "../state/AuthContext";
 
 const { Title, Text } = Typography;
@@ -36,67 +27,56 @@ export default function Login() {
   };
 
   return (
-    <ConfigProvider
-      theme={{
-        token: {
-          colorPrimary: BRAND_COLOR,
-          colorPrimaryHover: BRAND_COLOR,
-          colorPrimaryActive: BRAND_COLOR,
-          borderRadius: 8,
-        },
+    <div
+      style={{
+        minHeight: "100vh",
+        // margin:"auto auto",
+        // width: "100%",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        background: "#f8f8f8",
       }}
     >
-      <div
+      <Card
         style={{
-          minHeight: "100vh",
-          // margin:"auto auto",
-          // width: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          background: "#f8f8f8",
+          width: 400,
+          borderTop: `4px solid ${BRAND_COLOR}`,
         }}
       >
-        <Card
-          style={{
-            width: 400,
-            borderTop: `4px solid ${BRAND_COLOR}`,
-          }}
-        >
-          <Title level={3} style={{ textAlign: "center", color: BRAND_COLOR }}>
+        <Title level={3} style={{ textAlign: "center", color: BRAND_COLOR }}>
+          Login
+        </Title>
+
+        <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+          <Input
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+
+          <Input.Password
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+
+          {error && <Alert type="error" message={error} showIcon />}
+
+          <Button type="primary" block size="large" onClick={handleLogin}>
             Login
-          </Title>
+          </Button>
 
-          <Space direction="vertical" size="middle" style={{ width: "100%" }}>
-            <Input
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+          <Divider />
 
-            <Input.Password
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            {error && <Alert type="error" message={error} showIcon />}
-
-            <Button type="primary" block size="large" onClick={handleLogin}>
-              Login
-            </Button>
-
-            <Divider />
-
-            <Text strong>Dummy Users</Text>
-            <ul style={{ paddingLeft: 18, margin: 0 }}>
-              <li>employee@company.com / employee123</li>
-              <li>admin@company.com / admin123</li>
-              <li>viewer@company.com / viewer123</li>
-            </ul>
-          </Space>
-        </Card>
-      </div>
-    </ConfigProvider>
+          <Text strong>Dummy Users</Text>
+          <ul style={{ paddingLeft: 18, margin: 0 }}>
+            <li>employee@company.com / employee123</li>
+            <li>admin@company.com / admin123</li>
+            <li>viewer@company.com / viewer123</li>
+          </ul>
+        </Space>
+      </Card>
+    </div>
   );
 }

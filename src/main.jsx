@@ -4,13 +4,17 @@ import App from "./App.jsx";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { AuthProvider } from "./state/AuthContext.jsx";
+import { ConfigProvider } from "antd";
+import { ThemeProvider } from "./theme/ThemeContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <App />
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </AuthProvider>
     </BrowserRouter>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

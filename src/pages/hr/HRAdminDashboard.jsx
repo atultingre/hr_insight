@@ -2,16 +2,29 @@
 // src/pages/hr/HRAdminDashboard.jsx
 // ========================
 import React, { useEffect, useState } from "react";
+import {
+  Button,
+  Card,
+  Divider,
+  List,
+  Space,
+  Typography,
+  ConfigProvider,
+  Empty,
+} from "antd";
+
 import QuestionnaireBuilder from "./QuestionnaireBuilder";
 import TargetingRulesUI from "./TargetingRulesUI";
-import { storage, STORAGE_KEYS } from "../../services/storage";
 import SubmissionViewer from "./SubmissionViewer";
 import HRAccessScopes from "./HRAccessScopes";
 import ManageEmployees from "./ManageEmployees";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from "../../state/AuthContext";
 import BulkImportEmployees from "./BulkImportEmployees";
 import BulkEditEmployees from "./BulkEditEmployees";
+
+import { storage, STORAGE_KEYS } from "../../services/storage";
+
+const { Title, Text } = Typography;
+const BRAND_COLOR = "#da1f26";
 
 export default function HRAdminDashboard() {
   const [showBuilder, setShowBuilder] = useState(false);
@@ -30,123 +43,132 @@ export default function HRAdminDashboard() {
   }, [showBuilder]);
 
   return (
-    <div style={{ padding: 20 }}>
-      <h2>HR Admin Panel</h2>
+    <>
+      <Title level={3} style={{ color: BRAND_COLOR }}>
+        HR Admin Panel
+      </Title>
 
       {/* Create Questionnaire */}
-      <button onClick={() => setShowBuilder(!showBuilder)}>
-        {showBuilder ? "Close Builder" : "Create Questionnaire"}
-      </button>
+      <Card>
+        <Space orientation="vertical" size="middle">
+          <Button type="primary" onClick={() => setShowBuilder(!showBuilder)}>
+            {showBuilder ? "Close Builder" : "Create Questionnaire"}
+          </Button>
 
-      {showBuilder && <QuestionnaireBuilder />}
+          {showBuilder && <QuestionnaireBuilder />}
+        </Space>
+      </Card>
 
-      <hr />
+      <Divider />
 
-      {/* Existing Questionnaires */}
-      <h3>Questionnaires</h3>
+      {/* Questionnaires */}
+      <Card title="Questionnaires">
+        {questionnaires.length === 0 ? (
+          <Empty description="No questionnaires created yet" />
+        ) : (
+          <List
+            dataSource={questionnaires}
+            renderItem={(q) => (
+              <List.Item key={q.id}>
+                <Space orientation="vertical" style={{ width: "100%" }}>
+                  <Space>
+                    <Text strong>{q.title}</Text>
+                    <Button
+                      size="small"
+                      onClick={() =>
+                        setActiveTargetQ(activeTargetQ === q.id ? null : q.id)
+                      }
+                    >
+                      Targeting Rules
+                    </Button>
+                  </Space>
 
-      {questionnaires.length === 0 ? (
-        <p>No questionnaires created yet</p>
-      ) : (
-        <ul>
-          {questionnaires.map((q) => (
-            <li key={q.id} style={{ marginBottom: 10 }}>
-              <b>{q.title}</b>
+                  {activeTargetQ === q.id && (
+                    <TargetingRulesUI questionnaireId={q.id} />
+                  )}
+                </Space>
+              </List.Item>
+            )}
+          />
+        )}
+      </Card>
 
-              <button
-                style={{ marginLeft: 10 }}
-                onClick={() =>
-                  setActiveTargetQ(activeTargetQ === q.id ? null : q.id)
-                }
-              >
-                Targeting Rules
-              </button>
+      <Divider />
 
-              {activeTargetQ === q.id && (
-                <TargetingRulesUI questionnaireId={q.id} />
-              )}
-            </li>
-          ))}
-        </ul>
-      )}
-
-      <hr />
-
-      {/* Future Admin Links */}
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        <li>
-          <button onClick={() => setShowEmployees(!showEmployees)}>
+      {/* Admin Actions */}
+      <Card title="Admin Actions">
+        <Space wrap>
+          <Button onClick={() => setShowEmployees(!showEmployees)}>
             {showEmployees ? "Hide Employees" : "Manage Employees"}
-          </button>
-        </li>
-        <li>
-          <li>
-            <button onClick={() => setShowBulkImport(!showBulkImport)}>
-              Bulk Import Employees
-            </button>
-          </li>
+          </Button>
 
-          <li>
-            <button onClick={() => setShowBulkEdit(!showBulkEdit)}>
-              Bulk Edit Employees
-            </button>
-          </li>
-        </li>
-        <li>
-          <button onClick={() => setShowSubmissions(!showSubmissions)}>
+          <Button onClick={() => setShowBulkImport(!showBulkImport)}>
+            Bulk Import Employees
+          </Button>
+
+          <Button onClick={() => setShowBulkEdit(!showBulkEdit)}>
+            Bulk Edit Employees
+          </Button>
+
+          <Button onClick={() => setShowSubmissions(!showSubmissions)}>
             {showSubmissions ? "Hide Submissions" : "View All Submissions"}
-          </button>
-        </li>
-        <li>
-          <button disabled title="Coming soon">
-            Reports & Exports
-          </button>
-        </li>
-        <li>
-          <button onClick={() => setShowScopes(!showScopes)}>
+          </Button>
+
+          <Button disabled>Reports & Exports</Button>
+
+          <Button onClick={() => setShowScopes(!showScopes)}>
             {showScopes ? "Hide HR Access Scopes" : "HR Access Scopes"}
-          </button>
-        </li>
-        <li>
-          <button disabled title="Coming soon">
-            Notification Routes
-          </button>
-        </li>
-      </ul>
+          </Button>
+
+          <Button disabled>Notification Routes</Button>
+        </Space>
+      </Card>
+
+      {/* Conditional Sections */}
       {showSubmissions && (
         <>
-          <hr />
-          <SubmissionViewer scope={{}} />
+          <Divider />
+          <Card title="Submissions">
+            <SubmissionViewer scope={{}} />
+          </Card>
         </>
       )}
 
       {showScopes && (
         <>
-          <hr />
-          <HRAccessScopes />
+          <Divider />
+          <Card title="HR Access Scopes">
+            <HRAccessScopes />
+          </Card>
         </>
       )}
 
       {showEmployees && (
         <>
-          <hr />
-          <ManageEmployees />
+          <Divider />
+          <Card title="Manage Employees">
+            <ManageEmployees />
+          </Card>
         </>
       )}
 
       {showBulkImport && (
         <>
-          <hr />
-          <BulkImportEmployees />
+          <Divider />
+          <Card title="Bulk Import Employees">
+            <BulkImportEmployees />
+          </Card>
         </>
       )}
 
       {showBulkEdit && (
         <>
-          <hr />
-          <BulkEditEmployees />
+          <Divider />
+          <Card title="Bulk Edit Employees">
+            <BulkEditEmployees />
+          </Card>
         </>
       )}
-    </div>
+    </>
   );
 }
