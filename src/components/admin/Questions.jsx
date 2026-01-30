@@ -1,17 +1,9 @@
-import { DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import {
-  Button,
-  Card,
-  Empty,
-  Popconfirm,
-  Table,
-  Tooltip,
-  Typography,
-} from "antd";
+import { Button, Card, Empty, Space, Typography, Table, Tooltip } from "antd";
+import { EyeOutlined } from "@ant-design/icons";
 import { useState } from "react";
-import { storage, STORAGE_KEYS } from "../../services/storage";
 import EditQuestionModal from "./EditQuestionModal";
 import ViewQuestionsModal from "./ViewQuestionsModal.jsx";
+import { storage, STORAGE_KEYS } from "../../services/storage";
 
 const { Text } = Typography;
 
@@ -32,18 +24,6 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
 
     storage.set(STORAGE_KEYS.QUESTIONNAIRES, updated);
     setQuestionnaires(updated);
-  };
-
-  const deleteQuestionnaire = (questionnaireId) => {
-    const updated = questionnaires.filter((q) => q.id !== questionnaireId);
-
-    storage.set(STORAGE_KEYS.QUESTIONNAIRES, updated);
-    setQuestionnaires(updated);
-
-    // close modal if deleted questionnaire was open
-    if (viewQnr?.id === questionnaireId) {
-      setViewQnr(null);
-    }
   };
 
   const columns = [
@@ -76,17 +56,14 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
     {
       title: "Delete",
       render: (_, record) => (
-        <Popconfirm
-          title="Delete questionnaire?"
-          description="This will delete all questions permanently."
-          okText="Yes"
-          cancelText="No"
-          onConfirm={() => deleteQuestionnaire(record.id)}
-        >
-          <Tooltip title="Delete Questionnaire">
-            <Button type="text" danger icon={<DeleteOutlined />} />
-          </Tooltip>
-        </Popconfirm>
+        <Tooltip title="Delete Questionnaire">
+          <Button
+            type="text"
+            danger
+            icon={<EyeOutlined />}
+            onClick={() => setViewQnr(record)}
+          />
+        </Tooltip>
       ),
     },
   ];
