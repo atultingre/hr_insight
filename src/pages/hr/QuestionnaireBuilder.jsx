@@ -3,6 +3,18 @@
 // ========================
 import React, { useState } from "react";
 import { storage, STORAGE_KEYS } from "../../services/storage";
+import {
+  Modal,
+  Input,
+  Select,
+  Checkbox,
+  Button,
+  Space,
+  Divider,
+  Card,
+} from "antd";
+
+const { TextArea } = Input;
 
 const QUESTION_TYPES = [
   "text",
@@ -12,7 +24,7 @@ const QUESTION_TYPES = [
   "rating",
 ];
 
-export default function QuestionnaireBuilder() {
+export default function QuestionnaireBuilder({ open, setOpen }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [questions, setQuestions] = useState([]);
@@ -32,15 +44,15 @@ export default function QuestionnaireBuilder() {
 
   const updateQuestion = (id, field, value) => {
     setQuestions(
-      questions.map((q) => (q.id === id ? { ...q, [field]: value } : q))
+      questions.map((q) => (q.id === id ? { ...q, [field]: value } : q)),
     );
   };
 
   const addOption = (id) => {
     setQuestions(
       questions.map((q) =>
-        q.id === id ? { ...q, options_json: [...q.options_json, ""] } : q
-      )
+        q.id === id ? { ...q, options_json: [...q.options_json, ""] } : q,
+      ),
     );
   };
 
@@ -53,7 +65,7 @@ export default function QuestionnaireBuilder() {
           return { ...q, options_json: opts };
         }
         return q;
-      })
+      }),
     );
   };
 
@@ -89,78 +101,105 @@ export default function QuestionnaireBuilder() {
   };
 
   return (
-    <div style={{ border: "1px solid #ccc", padding: 16, marginTop: 16 }}>
-      <h3>Create Questionnaire</h3>
-
-      <input
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-      />
-      <br />
-      <textarea
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <h4>Questions</h4>
-      {questions.map((q, index) => (
-        <div key={q.id} style={{ marginBottom: 12 }}>
-          <p>Question {index + 1}</p>
-          <input
-            placeholder="Question text"
-            value={q.question_text}
-            onChange={(e) =>
-              updateQuestion(q.id, "question_text", e.target.value)
-            }
+    <Modal
+      title="Create Questionnaire"
+      open={open}
+      onCancel={() => setOpen(false)}
+      footer={null}
+      width={900}
+      destroyOnHidden
+    >
+      <Card>
+        <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+          <Input
+            placeholder="Title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
           />
 
-          <select
-            value={q.question_type}
-            onChange={(e) =>
-              updateQuestion(q.id, "question_type", e.target.value)
-            }
-          >
-            {QUESTION_TYPES.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
+          <TextArea
+            placeholder="Description"
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
 
-          <label>
-            <input
-              type="checkbox"
-              checked={q.is_required}
-              onChange={(e) =>
-                updateQuestion(q.id, "is_required", e.target.checked)
-              }
-            />
-            Required
-          </label>
+          <Divider titlePlacement="start">Questions</Divider>
 
-          {(q.question_type === "single_choice" ||
-            q.question_type === "multiple_choice") && (
-            <div>
-              <p>Options</p>
-              {q.options_json.map((opt, i) => (
-                <input
-                  key={i}
-                  placeholder={`Option ${i + 1}`}
-                  value={opt}
-                  onChange={(e) => updateOption(q.id, i, e.target.value)}
+          {questions.map((q, index) => (
+            <Card key={q.id} size="small" style={{ width: "100%" }}>
+              {/* <Space orientation="vertical" style={{ width: "100%" }}> */}
+              <strong>Question {index + 1}</strong>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  gap: "8px",
+                }}
+              >
+                <Checkbox
+                  checked={q.is_required}
+                  onChange={(e) =>
+                    updateQuestion(q.id, "is_required", e.target.checked)
+                  }
+                ></Checkbox>
+                <Input
+                  placeholder="Question text"
+                  value={q.question_text}
+                  onChange={(e) =>
+                    updateQuestion(q.id, "question_text", e.target.value)
+                  }
                 />
-              ))}
-              <button onClick={() => addOption(q.id)}>Add Option</button>
-            </div>
-          )}
-        </div>
-      ))}
 
-      <button onClick={addQuestion}>Add Question</button>
-      <br />
-      <button onClick={saveQuestionnaire}>Save Questionnaire</button>
-    </div>
+                <Select
+                  value={q.question_type}
+                  onChange={(value) =>
+                    updateQuestion(q.id, "question_type", value)
+                  }
+                  options={QUESTION_TYPES.map((t) => ({
+                    label: t,
+                    value: t,
+                  }))}
+                  style={{ width: 180 }}
+                />
+              </div>
+              {(q.question_type === "single_choice" ||
+                q.question_type === "multiple_choice") && (
+                <Space
+                  orientation="vertical"
+                  style={{ width: "100%", marginTop: "10px" }}
+                >
+                  <strong style={{}}>Options</strong>
+
+                  {q.options_json.map((opt, i) => (
+                    <Input
+                      key={i}
+                      placeholder={`Option ${i + 1}`}
+                      value={opt}
+                      onChange={(e) => updateOption(q.id, i, e.target.value)}
+                    />
+                  ))}
+
+                  <Button type="dashed" onClick={() => addOption(q.id)}>
+                    Add Option
+                  </Button>
+                </Space>
+              )}
+
+              {/* </Space> */}
+            </Card>
+          ))}
+
+          <Button type="dashed" block onClick={addQuestion}>
+            Add Question
+          </Button>
+
+          <Button type="primary" block onClick={saveQuestionnaire}>
+            Save Questionnaire
+          </Button>
+        </Space>
+      </Card>
+    </Modal>
   );
 }

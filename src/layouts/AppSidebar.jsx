@@ -1,7 +1,9 @@
 import {
-  UploadOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
+  FileTextOutlined,
+  TeamOutlined,
+  SendOutlined,
+  SafetyCertificateOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useTheme } from "../theme/ThemeContext";
@@ -65,9 +67,11 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
         mode="inline"
         style={{ height: "100%", borderRight: 0 }}
         items={[
-          { key: "1", icon: <UserOutlined />, label: "nav 1" },
-          { key: "2", icon: <VideoCameraOutlined />, label: "nav 2" },
-          { key: "3", icon: <UploadOutlined />, label: "nav 3" },
+          { key: "1", icon: <FileTextOutlined />, label: "Questionnaires" },
+          { key: "2", icon: <TeamOutlined />, label: "Employees" },
+          { key: "3", icon: <SendOutlined />, label: "Submissions" },
+          { key: "4", icon: <SafetyCertificateOutlined />, label: "HR Access" },
+          { key: "5", icon: <BarChartOutlined />, label: "Reports" },
         ]}
       />
     </Sider>

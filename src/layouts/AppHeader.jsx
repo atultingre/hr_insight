@@ -1,6 +1,6 @@
 import { MenuFoldOutlined, MenuUnfoldOutlined } from "@ant-design/icons";
 import { Button, Space } from "antd";
-import ThemeToggle from "../components/ThemeToggle";
+import ThemeToggle from "../theme/ThemeToggle";
 import { Header } from "antd/es/layout/layout";
 
 const AppHeader = ({

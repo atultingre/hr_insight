@@ -1,26 +1,17 @@
 // ========================
 // src/pages/hr/HRAdminDashboard.jsx
 // ========================
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  Divider,
-  List,
-  Space,
-  Typography,
-  ConfigProvider,
-  Empty,
-} from "antd";
+import { Button, Card, Divider, Space, Typography } from "antd";
+import { useEffect, useState } from "react";
 
-import QuestionnaireBuilder from "./QuestionnaireBuilder";
-import TargetingRulesUI from "./TargetingRulesUI";
-import SubmissionViewer from "./SubmissionViewer";
+import BulkEditEmployees from "./BulkEditEmployees";
+import BulkImportEmployees from "./BulkImportEmployees";
 import HRAccessScopes from "./HRAccessScopes";
 import ManageEmployees from "./ManageEmployees";
-import BulkImportEmployees from "./BulkImportEmployees";
-import BulkEditEmployees from "./BulkEditEmployees";
+import SubmissionViewer from "./SubmissionViewer";
 
+import CreateQuestions from "../../components/admin/CreateQuestions";
+import Questions from "../../components/admin/Questions";
 import { storage, STORAGE_KEYS } from "../../services/storage";
 
 const { Title, Text } = Typography;
@@ -44,54 +35,18 @@ export default function HRAdminDashboard() {
 
   return (
     <>
-      <Title level={3} style={{ color: BRAND_COLOR }}>
-        HR Admin Panel
-      </Title>
-
-      {/* Create Questionnaire */}
-      <Card>
-        <Space orientation="vertical" size="middle">
-          <Button type="primary" onClick={() => setShowBuilder(!showBuilder)}>
-            {showBuilder ? "Close Builder" : "Create Questionnaire"}
-          </Button>
-
-          {showBuilder && <QuestionnaireBuilder />}
-        </Space>
-      </Card>
-
+      <CreateQuestions
+        showBuilder={showBuilder}
+        setShowBuilder={setShowBuilder}
+      />
       <Divider />
 
       {/* Questionnaires */}
-      <Card title="Questionnaires">
-        {questionnaires.length === 0 ? (
-          <Empty description="No questionnaires created yet" />
-        ) : (
-          <List
-            dataSource={questionnaires}
-            renderItem={(q) => (
-              <List.Item key={q.id}>
-                <Space orientation="vertical" style={{ width: "100%" }}>
-                  <Space>
-                    <Text strong>{q.title}</Text>
-                    <Button
-                      size="small"
-                      onClick={() =>
-                        setActiveTargetQ(activeTargetQ === q.id ? null : q.id)
-                      }
-                    >
-                      Targeting Rules
-                    </Button>
-                  </Space>
-
-                  {activeTargetQ === q.id && (
-                    <TargetingRulesUI questionnaireId={q.id} />
-                  )}
-                </Space>
-              </List.Item>
-            )}
-          />
-        )}
-      </Card>
+      <Questions
+        questionnaires={questionnaires}
+        activeTargetQ={activeTargetQ}
+        setActiveTargetQ={setActiveTargetQ}
+      />
 
       <Divider />
 

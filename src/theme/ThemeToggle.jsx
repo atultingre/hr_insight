@@ -1,6 +1,6 @@
 import { Switch } from "antd";
 import { MoonOutlined, SunOutlined } from "@ant-design/icons";
-import { useTheme } from "../theme/ThemeContext";
+import { useTheme } from "./ThemeContext";
 
 export default function ThemeToggle() {
   const { mode, toggleTheme } = useTheme();
