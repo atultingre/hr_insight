@@ -1,0 +1,6 @@
+"full_name,employee_code,email,department,designation"
+"John Doe,EMP201,john.doe@company.com,Engineering,Developer"
+"Jane Smith,EMP202,jane.smith@company.com,Engineering,Senior Developer"
+"Ravi Kumar,EMP203,ravi.kumar@company.com,Engineering,Manager"
+"Anita Sharma,EMP204,anita.sharma@company.com,HR,HR Executive"
+"Vikas Patel,EMP205,vikas.patel@company.com,Finance,Accountant"
