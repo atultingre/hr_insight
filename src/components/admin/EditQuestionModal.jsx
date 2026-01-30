@@ -1,5 +1,5 @@
 import { Modal, Input, Select, Checkbox, Button, Space, Card } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { storage, STORAGE_KEYS } from "../../services/storage";
 
 const { TextArea } = Input;
@@ -22,21 +22,13 @@ const EditQuestionModal = ({
 }) => {
   const [q, setQ] = useState({ ...question });
 
+  // ✅ keep modal in sync
+  useEffect(() => {
+    setQ({ ...question });
+  }, [question]);
+
   const updateField = (field, value) =>
     setQ((prev) => ({ ...prev, [field]: value }));
-
-  const updateOption = (index, value) => {
-    const opts = [...q.options_json];
-    opts[index] = value;
-    setQ({ ...q, options_json: opts });
-  };
-
-  const addOption = () => setQ({ ...q, options_json: [...q.options_json, ""] });
-
-  const deleteOption = (index) => {
-    const opts = q.options_json.filter((_, i) => i !== index);
-    setQ({ ...q, options_json: opts });
-  };
 
   const save = () => {
     const updated = questionnaires.map((qn) =>
@@ -51,6 +43,19 @@ const EditQuestionModal = ({
     storage.set(STORAGE_KEYS.QUESTIONNAIRES, updated);
     setQuestionnaires(updated);
     onClose();
+  };
+
+  const updateOption = (index, value) => {
+    const opts = [...q.options_json];
+    opts[index] = value;
+    setQ({ ...q, options_json: opts });
+  };
+
+  const addOption = () => setQ({ ...q, options_json: [...q.options_json, ""] });
+
+  const deleteOption = (index) => {
+    const opts = q.options_json.filter((_, i) => i !== index);
+    setQ({ ...q, options_json: opts });
   };
 
   return (
