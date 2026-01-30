@@ -1,23 +1,20 @@
-// ========================
-// src/pages/hr/HRAdminDashboard.jsx
-// ========================
 import { Button, Card, Divider, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 
-import BulkEditEmployees from "./BulkEditEmployees";
-import BulkImportEmployees from "./BulkImportEmployees";
-import HRAccessScopes from "./HRAccessScopes";
-import ManageEmployees from "./ManageEmployees";
-import SubmissionViewer from "./SubmissionViewer";
+import BulkEditEmployees from "../../pages/hr/BulkEditEmployees.jsx";
+import BulkImportEmployees from "../../pages/hr/BulkImportEmployees.jsx";
+import HRAccessScopes from "../../pages/hr/HRAccessScopes.jsx";
+import SubmissionViewer from "../../pages/hr/SubmissionViewer.jsx";
 
-import CreateQuestions from "../../components/admin/CreateQuestions";
-import Questions from "../../components/admin/Questions";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../services/storage.js";
+import EmployeesList from "../employee/EmployeesList.jsx";
+import CreateQuestions from "./CreateQuestions.jsx";
+import Questions from "./Questions.jsx";
 
 const { Title, Text } = Typography;
 const BRAND_COLOR = "#da1f26";
 
-export default function HRAdminDashboard() {
+export default function AdminDashboard() {
   const [showBuilder, setShowBuilder] = useState(false);
   const [questionnaires, setQuestionnaires] = useState([]);
   const [activeTargetQ, setActiveTargetQ] = useState(null);
@@ -51,33 +48,32 @@ export default function HRAdminDashboard() {
       <Divider />
 
       {/* Admin Actions */}
-      <Card title="Admin Actions">
-        <Space wrap>
-          <Button onClick={() => setShowEmployees(!showEmployees)}>
-            {showEmployees ? "Hide Employees" : "Manage Employees"}
-          </Button>
+      <EmployeesList
+        showEmployees={showEmployees}
+        setShowEmployees={setShowEmployees}
+      />
 
-          <Button onClick={() => setShowBulkImport(!showBulkImport)}>
-            Bulk Import Employees
-          </Button>
+      <Space wrap style={{ marginTop: "20px" }}>
+        <Button onClick={() => setShowBulkImport(!showBulkImport)}>
+          Bulk Import Employees
+        </Button>
 
-          <Button onClick={() => setShowBulkEdit(!showBulkEdit)}>
-            Bulk Edit Employees
-          </Button>
+        <Button onClick={() => setShowBulkEdit(!showBulkEdit)}>
+          Bulk Edit Employees
+        </Button>
 
-          <Button onClick={() => setShowSubmissions(!showSubmissions)}>
-            {showSubmissions ? "Hide Submissions" : "View All Submissions"}
-          </Button>
+        <Button onClick={() => setShowSubmissions(!showSubmissions)}>
+          {showSubmissions ? "Hide Submissions" : "View All Submissions"}
+        </Button>
 
-          <Button disabled>Reports & Exports</Button>
+        <Button disabled>Reports & Exports</Button>
 
-          <Button onClick={() => setShowScopes(!showScopes)}>
-            {showScopes ? "Hide HR Access Scopes" : "HR Access Scopes"}
-          </Button>
+        <Button onClick={() => setShowScopes(!showScopes)}>
+          {showScopes ? "Hide HR Access Scopes" : "HR Access Scopes"}
+        </Button>
 
-          <Button disabled>Notification Routes</Button>
-        </Space>
-      </Card>
+        <Button disabled>Notification Routes</Button>
+      </Space>
 
       {/* Conditional Sections */}
       {showSubmissions && (
@@ -94,15 +90,6 @@ export default function HRAdminDashboard() {
           <Divider />
           <Card title="HR Access Scopes">
             <HRAccessScopes />
-          </Card>
-        </>
-      )}
-
-      {showEmployees && (
-        <>
-          <Divider />
-          <Card title="Manage Employees">
-            <ManageEmployees />
           </Card>
         </>
       )}

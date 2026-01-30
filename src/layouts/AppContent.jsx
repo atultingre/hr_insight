@@ -9,7 +9,8 @@ const AppContent = ({ HEADER_HEIGHT }) => {
         style={{
           marginTop: HEADER_HEIGHT,
           padding: 24,
-          minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
+          height:"89vh",
+          // minHeight: `calc(100vh - ${HEADER_HEIGHT}px)`,
           overflow: "auto",
         }}
       >

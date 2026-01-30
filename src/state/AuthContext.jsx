@@ -1,13 +1,9 @@
-// ========================
-// src/state/AuthContext.jsx
-// ========================
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { storage, STORAGE_KEYS } from "../services/storage";
 
 const AuthContext = createContext();
 
 const seedInitialData = () => {
-  // Employees
   if (!localStorage.getItem(STORAGE_KEYS.EMPLOYEES)) {
     storage.set(STORAGE_KEYS.EMPLOYEES, [
       {
@@ -37,7 +33,6 @@ const seedInitialData = () => {
     ]);
   }
 
-  // Users (LOGIN ACCOUNTS)
   if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
     storage.set(STORAGE_KEYS.USERS, [
       {
@@ -67,7 +62,6 @@ const seedInitialData = () => {
     ]);
   }
 
-  // Base tables
   if (!localStorage.getItem(STORAGE_KEYS.QUESTIONNAIRES))
     storage.set(STORAGE_KEYS.QUESTIONNAIRES, []);
 
@@ -78,51 +72,20 @@ const seedInitialData = () => {
     storage.set(STORAGE_KEYS.SUBMISSIONS, []);
 };
 
-// Dummy users (local only)
-const DUMMY_USERS = [
-  {
-    id: 1,
-    email: "employee@company.com",
-    password: "employee123",
-    role: "employee",
-    employee_id: 101,
-
-    status: "active",
-  },
-  {
-    id: 2,
-    email: "admin@company.com",
-    password: "admin123",
-    role: "hr_admin",
-    employee_id: 1,
-
-    status: "active",
-  },
-  {
-    id: 3,
-    email: "viewer@company.com",
-    password: "viewer123",
-    role: "hr_viewer",
-    employee_id: 2,
-
-    status: "active",
-  },
-];
-
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  // ✅ initialize user directly
+  const [user, setUser] = useState(() => {
+    try {
+      const stored = localStorage.getItem("auth_user");
+      return stored ? JSON.parse(stored) : null;
+    } catch {
+      localStorage.removeItem("auth_user");
+      return null;
+    }
+  });
 
   useEffect(() => {
-    // Seed DB-like data once
     seedInitialData();
-
-    // Restore session
-    const stored = localStorage.getItem("auth_user");
-    if (stored) {
-      setUser(JSON.parse(stored));
-    }
-    setLoading(false);
   }, []);
 
   const login = (email, password) => {
@@ -148,10 +111,6 @@ export const AuthProvider = ({ children }) => {
     setUser(authUser);
     return authUser;
   };
-
-  if (loading) {
-    return <div>Loading session...</div>;
-  }
 
   const logout = () => {
     localStorage.removeItem("auth_user");

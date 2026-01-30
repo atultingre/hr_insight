@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
-import HRAdminDashboard from "./pages/hr/HRAdminDashboard";
 import HRViewerDashboard from "./pages/hr/HRViewerDashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
+import AdminDashboard from "./components/admin/AdminDashboard";
 
 export default function App() {
   return (
@@ -26,7 +26,7 @@ export default function App() {
           path="/hr-admin"
           element={
             <ProtectedRoute role="hr_admin">
-              <HRAdminDashboard />
+              <AdminDashboard />
             </ProtectedRoute>
           }
         />
