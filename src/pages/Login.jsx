@@ -35,13 +35,14 @@ export default function Login() {
         display: "flex",
         alignItems: "center",
         justifyContent: "center",
-        background: "#f8f8f8",
+        background: "#f8f8f8 !important",
       }}
-    >
+      >
       <Card
         style={{
           width: 400,
           borderTop: `4px solid ${BRAND_COLOR}`,
+          background: "#f8f8f8 !important",
         }}
       >
         <Title level={3} style={{ textAlign: "center", color: BRAND_COLOR }}>
