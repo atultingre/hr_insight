@@ -1,20 +1,19 @@
-import { useEffect, useState } from "react";
 import {
-  Table,
   Button,
-  Space,
-  Tag,
-  Empty,
-  Modal,
-  message,
-  Input,
   Card,
-  Divider,
+  Empty,
+  Input,
+  message,
+  Modal,
+  Space,
+  Table,
+  Tag,
 } from "antd";
+import { useEffect, useState } from "react";
 import { storage, STORAGE_KEYS } from "../../../services/storage.js";
 import AddEmployee from "./AddEmployee.jsx";
-import BulkImportEmployees from "./BulkImportEmployees.jsx";
 import BulkEditEmployees from "./BulkEditEmployees.jsx";
+import BulkImportEmployees from "./BulkImportEmployees.jsx";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
@@ -127,6 +126,7 @@ const EmployeesList = () => {
       department: "",
       designation: "",
     });
+    setActiveModal(null);
   };
 
   const deleteEmployee = (id) => {
@@ -168,6 +168,7 @@ const EmployeesList = () => {
 
     setEmployees(updatedEmployees);
   };
+
   const filteredEmployees = employees.filter((e) =>
     Object.values(e).some((val) =>
       String(val).toLowerCase().includes(searchText.toLowerCase()),
