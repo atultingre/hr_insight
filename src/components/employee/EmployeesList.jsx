@@ -9,9 +9,12 @@ import {
   message,
   Input,
   Card,
+  Divider,
 } from "antd";
 import { storage, STORAGE_KEYS } from "../../services/storage";
 import AddEmployee from "./AddEmployee.jsx";
+import BulkImportEmployees from "../admin/BulkImportEmployees.jsx";
+import BulkEditEmployees from "../admin/BulkEditEmployees.jsx";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
@@ -25,6 +28,9 @@ const EmployeesList = () => {
   const [editingId, setEditingId] = useState(null);
   const [searchText, setSearchText] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showBulkImport, setShowBulkImport] = useState(false);
+  const [showBulkEdit, setShowBulkEdit] = useState(false);
+  const [activeModal, setActiveModal] = useState(null);
 
   useEffect(() => {
     setEmployees(storage.get(STORAGE_KEYS.EMPLOYEES, []));
@@ -221,7 +227,7 @@ const EmployeesList = () => {
             onClick={() => {
               setEditingId(record.id);
               setForm(record);
-              setIsModalOpen(true);
+              setActiveModal("edit");
             }}
           >
             Edit
@@ -242,23 +248,38 @@ const EmployeesList = () => {
   return (
     <div>
       <Card>
-        <Button
-          type="primary"
-          onClick={() => {
-            setEditingId(null);
-            setForm({
-              full_name: "",
-              employee_code: "",
-              email: "",
-              department: "",
-              designation: "",
-            });
-            setIsModalOpen(true);
+        <div
+          style={{
+            display: "flex",
+            float: "right",
+            marginBottom: "20px",
+            gap: "10px",
           }}
-          style={{ display: "flex", float: "right", marginBottom: "20px" }}
         >
-          Add Employee
-        </Button>
+          <Button onClick={() => setActiveModal("bulkEdit")} disabled>
+            Bulk Edit
+          </Button>
+          <Button onClick={() => setActiveModal("bulkImport")}>
+            Bulk Import
+          </Button>
+
+          <Button
+            type="primary"
+            onClick={() => {
+              setEditingId(null);
+              setForm({
+                full_name: "",
+                employee_code: "",
+                email: "",
+                department: "",
+                designation: "",
+              });
+              setActiveModal("add");
+            }}
+          >
+            Add Employee
+          </Button>
+        </div>
 
         {employees.length === 0 ? (
           <Empty description="No employees" />
@@ -281,20 +302,40 @@ const EmployeesList = () => {
           </>
         )}
       </Card>
+
       <Modal
-        title={editingId ? "Update Employee" : "Add Employee"}
-        open={isModalOpen}
-        onCancel={() => setIsModalOpen(false)}
+        open={!!activeModal}
+        onCancel={() => setActiveModal(null)}
         footer={null}
-        destroyOnClose
+        destroyOnHidden
+        width={
+          activeModal === "bulkImport" || activeModal === "bulkEdit" ? 600 : 520
+        }
+        title={
+          activeModal === "add"
+            ? "Add Employee"
+            : activeModal === "edit"
+              ? "Update Employee"
+              : activeModal === "bulkImport"
+                ? "Bulk Import Employees"
+                : activeModal === "bulkEdit"
+                  ? "Bulk Edit Employees"
+                  : ""
+        }
       >
-        <AddEmployee
-          form={form}
-          setForm={setForm}
-          editingId={editingId}
-          updateEmployee={updateEmployee}
-          addEmployee={addEmployee}
-        />
+        {activeModal === "add" || activeModal === "edit" ? (
+          <AddEmployee
+            form={form}
+            setForm={setForm}
+            editingId={editingId}
+            updateEmployee={updateEmployee}
+            addEmployee={addEmployee}
+          />
+        ) : null}
+
+        {activeModal === "bulkImport" ? <BulkImportEmployees /> : null}
+
+        {activeModal === "bulkEdit" ? <BulkEditEmployees /> : null}
       </Modal>
     </div>
   );

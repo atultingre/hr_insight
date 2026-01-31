@@ -1,8 +1,8 @@
 import { Button, Card, Divider, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 
-import BulkEditEmployees from "../../pages/hr/BulkEditEmployees.jsx";
-import BulkImportEmployees from "../../pages/hr/BulkImportEmployees.jsx";
+import BulkEditEmployees from "./BulkEditEmployees.jsx";
+import BulkImportEmployees from "./BulkImportEmployees.jsx";
 import HRAccessScopes from "../../pages/hr/HRAccessScopes.jsx";
 import SubmissionViewer from "../../pages/hr/SubmissionViewer.jsx";
 
@@ -21,8 +21,6 @@ export default function AdminDashboard() {
   const [showSubmissions, setShowSubmissions] = useState(false);
   const [showScopes, setShowScopes] = useState(false);
   const [showEmployees, setShowEmployees] = useState(false);
-  const [showBulkImport, setShowBulkImport] = useState(false);
-  const [showBulkEdit, setShowBulkEdit] = useState(false);
 
   // Load questionnaires from localStorage
   useEffect(() => {
@@ -54,14 +52,6 @@ export default function AdminDashboard() {
       />
 
       <Space wrap style={{ marginTop: "20px" }}>
-        <Button onClick={() => setShowBulkImport(!showBulkImport)}>
-          Bulk Import Employees
-        </Button>
-
-        <Button onClick={() => setShowBulkEdit(!showBulkEdit)}>
-          Bulk Edit Employees
-        </Button>
-
         <Button onClick={() => setShowSubmissions(!showSubmissions)}>
           {showSubmissions ? "Hide Submissions" : "View All Submissions"}
         </Button>
@@ -90,24 +80,6 @@ export default function AdminDashboard() {
           <Divider />
           <Card title="HR Access Scopes">
             <HRAccessScopes />
-          </Card>
-        </>
-      )}
-
-      {showBulkImport && (
-        <>
-          <Divider />
-          <Card title="Bulk Import Employees">
-            <BulkImportEmployees />
-          </Card>
-        </>
-      )}
-
-      {showBulkEdit && (
-        <>
-          <Divider />
-          <Card title="Bulk Edit Employees">
-            <BulkEditEmployees />
           </Card>
         </>
       )}

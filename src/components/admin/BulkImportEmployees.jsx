@@ -1,9 +1,14 @@
 import React from "react";
+import { Card, Upload, Typography, message, Space } from "antd";
+import { InboxOutlined } from "@ant-design/icons";
 import { storage, STORAGE_KEYS } from "../../services/storage";
+
+const { Title, Text } = Typography;
+const { Dragger } = Upload;
 
 export default function BulkImportEmployees() {
   const handleFile = (file) => {
-    if (!file) return;
+    if (!file) return false;
 
     const reader = new FileReader();
     reader.onload = () => {
@@ -12,7 +17,7 @@ export default function BulkImportEmployees() {
         .map((l) => l.trim())
         .filter(Boolean);
 
-      const [header, ...rows] = lines;
+      const [, ...rows] = lines;
 
       const employees = storage.get(STORAGE_KEYS.EMPLOYEES, []);
       const users = storage.get(STORAGE_KEYS.USERS, []);
@@ -62,29 +67,42 @@ export default function BulkImportEmployees() {
       storage.set(STORAGE_KEYS.EMPLOYEES, employees);
       storage.set(STORAGE_KEYS.USERS, users);
 
-      alert(
-        `Bulk import completed.\nAdded: ${added}\nSkipped: ${skipped}\nDefault password: password123`,
+      message.success(
+        `Bulk import completed. Added: ${added}, Skipped: ${skipped}`,
+        5,
       );
+
+      message.info("Default password for all users: password123", 5);
     };
 
     reader.readAsText(file);
+
+    // prevent auto upload
+    return false;
   };
 
   return (
-    <div>
-      <h3>Bulk Import Employees</h3>
+    <Card title="Bulk Import Employees" style={{ maxWidth: 600 }}>
+      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Text>
+          CSV format:
+          <br />
+          <Text code>full_name,employee_code,email,department,designation</Text>
+        </Text>
 
-      <p>
-        CSV format:
-        <br />
-        <code>full_name,employee_code,email,department,designation</code>
-      </p>
-
-      <input
-        type="file"
-        accept=".csv"
-        onChange={(e) => handleFile(e.target.files[0])}
-      />
-    </div>
+        <Dragger
+          accept=".csv"
+          beforeUpload={handleFile}
+          multiple={false}
+          maxCount={1}
+        >
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">Click or drag CSV file to upload</p>
+          <p className="ant-upload-hint">Only .csv files are supported</p>
+        </Dragger>
+      </Space>
+    </Card>
   );
 }

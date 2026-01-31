@@ -13,7 +13,7 @@ const SIDEBAR_WIDTH = 200;
 const SIDEBAR_COLLAPSED_WIDTH = 80;
 
 const AppLayout = () => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
   const { logout } = useAuth();
   const navigate = useNavigate();
 
