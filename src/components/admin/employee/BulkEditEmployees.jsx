@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Card, Select, Input, Button, Space, Typography, message } from "antd";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage";
 
 const { Title, Text } = Typography;
 

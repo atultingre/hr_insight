@@ -11,10 +11,10 @@ import {
   Card,
   Divider,
 } from "antd";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage.js";
 import AddEmployee from "./AddEmployee.jsx";
-import BulkImportEmployees from "../admin/BulkImportEmployees.jsx";
-import BulkEditEmployees from "../admin/BulkEditEmployees.jsx";
+import BulkImportEmployees from "./BulkImportEmployees.jsx";
+import BulkEditEmployees from "./BulkEditEmployees.jsx";
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);

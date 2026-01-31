@@ -1,15 +1,13 @@
 import { Button, Card, Divider, Space, Typography } from "antd";
 import { useEffect, useState } from "react";
 
-import BulkEditEmployees from "./BulkEditEmployees.jsx";
-import BulkImportEmployees from "./BulkImportEmployees.jsx";
 import HRAccessScopes from "../../pages/hr/HRAccessScopes.jsx";
 import SubmissionViewer from "../../pages/hr/SubmissionViewer.jsx";
 
 import { storage, STORAGE_KEYS } from "../../services/storage.js";
-import EmployeesList from "../employee/EmployeesList.jsx";
-import CreateQuestions from "./CreateQuestions.jsx";
-import Questions from "./Questions.jsx";
+import EmployeesList from "./employee/EmployeesList.jsx";
+import CreateQuestions from "./questions/CreateQuestions.jsx";
+import Questions from "./questions/Questions.jsx";
 
 const { Title, Text } = Typography;
 const BRAND_COLOR = "#da1f26";

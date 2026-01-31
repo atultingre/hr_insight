@@ -1,6 +1,6 @@
 import { Modal, Input, Select, Checkbox, Button, Space, Card } from "antd";
 import { useEffect, useState } from "react";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage";
 
 const { TextArea } = Input;
 

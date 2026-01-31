@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Modal } from "antd";
-import QuestionnaireBuilder from "../../pages/hr/QuestionnaireBuilder";
+import QuestionnaireBuilder from "../../../pages/hr/QuestionnaireBuilder";
 
 const CreateQuestions = () => {
   const [open, setOpen] = useState(false);

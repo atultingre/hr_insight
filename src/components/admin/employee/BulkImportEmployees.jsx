@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Upload, Typography, message, Space } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage.js";
 
 const { Title, Text } = Typography;
 const { Dragger } = Upload;

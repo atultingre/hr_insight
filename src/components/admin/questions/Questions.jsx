@@ -1,9 +1,10 @@
-import { Button, Card, Empty, Space, Typography, Table, Tooltip } from "antd";
-import { EyeOutlined } from "@ant-design/icons";
+import { AimOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
+import { Button, Card, Empty, Table, Tooltip, Typography } from "antd";
 import { useState } from "react";
-import EditQuestionModal from "./EditQuestionModal";
+import { storage, STORAGE_KEYS } from "../../../services/storage.js";
+import TargetingRulesUI from "./TargetingRulesUI.jsx";
+import EditQuestionModal from "./EditQuestionModal.jsx";
 import ViewQuestionsModal from "./ViewQuestionsModal.jsx";
-import { storage, STORAGE_KEYS } from "../../services/storage";
 
 const { Text } = Typography;
 
@@ -11,6 +12,7 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
   const [viewQnr, setViewQnr] = useState(null);
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [editingQnrId, setEditingQnrId] = useState(null);
+  const [rulesModal, setRulesModal] = useState(null);
 
   const deleteQuestion = (questionnaireId, questionId) => {
     const updated = questionnaires.map((q) =>
@@ -60,8 +62,20 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
           <Button
             type="text"
             danger
-            icon={<EyeOutlined />}
+            icon={<DeleteOutlined />}
             onClick={() => setViewQnr(record)}
+          />
+        </Tooltip>
+      ),
+    },
+    {
+      title: "Target",
+      render: (_, record) => (
+        <Tooltip title="Targeting Rules">
+          <Button
+            type="text"
+            icon={<AimOutlined  />}
+            onClick={() => setRulesModal(record.id)}
           />
         </Tooltip>
       ),
@@ -104,6 +118,13 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
           questionnaires={questionnaires}
           setQuestionnaires={setQuestionnaires}
           onClose={() => setEditingQuestion(null)}
+        />
+      )}
+      {rulesModal && (
+        <TargetingRulesUI
+          questionnaireId={rulesModal}
+          open={!!rulesModal}
+          onClose={() => setRulesModal(null)}
         />
       )}
     </Card>
