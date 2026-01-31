@@ -1,18 +1,40 @@
 import { AimOutlined, DeleteOutlined, EyeOutlined } from "@ant-design/icons";
-import { Button, Card, Empty, Table, Tooltip, Typography } from "antd";
+import {
+  Button,
+  Card,
+  Empty,
+  Popconfirm,
+  Table,
+  Tooltip,
+  Typography,
+} from "antd";
 import { useState } from "react";
 import { storage, STORAGE_KEYS } from "../../../services/storage.js";
 import TargetingRulesUI from "./TargetingRulesUI.jsx";
 import EditQuestionModal from "./EditQuestionModal.jsx";
 import ViewQuestionsModal from "./ViewQuestionsModal.jsx";
+import AddQuestionModal from "./AddQuestionModal.jsx";
 
 const { Text } = Typography;
 
 const Questions = ({ questionnaires, setQuestionnaires }) => {
-  const [viewQnr, setViewQnr] = useState(null);
   const [editingQuestion, setEditingQuestion] = useState(null);
   const [editingQnrId, setEditingQnrId] = useState(null);
   const [rulesModal, setRulesModal] = useState(null);
+  const [addingQnrId, setAddingQnrId] = useState(null);
+  const [viewQnrId, setViewQnrId] = useState(null);
+  const viewQnr = questionnaires.find((q) => q.id === viewQnrId) || null;
+
+  if (typeof setQuestionnaires !== "function") {
+    throw new Error("Questions requires setQuestionnaires prop");
+  }
+
+  const deleteQuestionnaire = (questionnaireId) => {
+    const updated = questionnaires.filter((q) => q.id !== questionnaireId);
+
+    storage.set(STORAGE_KEYS.QUESTIONNAIRES, updated);
+    setQuestionnaires(updated);
+  };
 
   const deleteQuestion = (questionnaireId, questionId) => {
     const updated = questionnaires.map((q) =>
@@ -20,6 +42,27 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
         ? {
             ...q,
             questions: q.questions.filter((qq) => qq.id !== questionId),
+          }
+        : q,
+    );
+
+    storage.set(STORAGE_KEYS.QUESTIONNAIRES, updated);
+    setQuestionnaires(updated);
+  };
+
+  const addQuestionToQuestionnaire = (questionnaireId, question) => {
+    const updated = questionnaires.map((q) =>
+      q.id === questionnaireId
+        ? {
+            ...q,
+            questions: [
+              ...q.questions,
+              {
+                ...question,
+                id: Date.now(),
+                display_order: q.questions.length + 1,
+              },
+            ],
           }
         : q,
     );
@@ -50,7 +93,7 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
           <Button
             type="text"
             icon={<EyeOutlined />}
-            onClick={() => setViewQnr(record)}
+            onClick={() => setViewQnrId(record.id)}
           />
         </Tooltip>
       ),
@@ -58,14 +101,23 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
     {
       title: "Delete",
       render: (_, record) => (
-        <Tooltip title="Delete Questionnaire">
-          <Button
-            type="text"
-            danger
-            icon={<DeleteOutlined />}
-            onClick={() => setViewQnr(record)}
-          />
-        </Tooltip>
+        <Popconfirm
+          title="Delete Questionnaire?"
+          description="This will permanently delete the questionnaire and all its questions."
+          okText="Delete"
+          cancelText="Cancel"
+          okButtonProps={{ danger: true }}
+          onConfirm={() => deleteQuestionnaire(record.id)}
+        >
+          <Tooltip title="Delete Questionnaire">
+            <Button
+              type="text"
+              danger
+              icon={<DeleteOutlined />}
+              onClick={(e) => e.stopPropagation()} // ⛔ prevents row click issues
+            />
+          </Tooltip>
+        </Popconfirm>
       ),
     },
     {
@@ -74,7 +126,7 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
         <Tooltip title="Targeting Rules">
           <Button
             type="text"
-            icon={<AimOutlined  />}
+            icon={<AimOutlined />}
             onClick={() => setRulesModal(record.id)}
           />
         </Tooltip>
@@ -100,12 +152,13 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
         <ViewQuestionsModal
           open={!!viewQnr}
           questionnaire={viewQnr}
-          onClose={() => setViewQnr(null)}
+          onClose={() => setViewQnrId(null)}
           onEdit={(q) => {
             setEditingQuestion(q);
             setEditingQnrId(viewQnr.id);
           }}
           onDelete={deleteQuestion}
+          onAddQuestion={() => setAddingQnrId(viewQnr.id)}
         />
       )}
 
@@ -125,6 +178,17 @@ const Questions = ({ questionnaires, setQuestionnaires }) => {
           questionnaireId={rulesModal}
           open={!!rulesModal}
           onClose={() => setRulesModal(null)}
+        />
+      )}
+
+      {addingQnrId && (
+        <AddQuestionModal
+          open={!!addingQnrId}
+          onClose={() => setAddingQnrId(null)}
+          onSave={(question) => {
+            addQuestionToQuestionnaire(addingQnrId, question);
+            setAddingQnrId(null);
+          }}
         />
       )}
     </Card>

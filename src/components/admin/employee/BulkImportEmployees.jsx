@@ -83,7 +83,7 @@ export default function BulkImportEmployees() {
 
   return (
     <Card title="Bulk Import Employees" style={{ maxWidth: 600 }}>
-      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+      <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
         <Text>
           CSV format:
           <br />

@@ -67,13 +67,18 @@ const EditQuestionModal = ({
       width={700}
     >
       <Card>
-        <Space direction="vertical" style={{ width: "100%" }}>
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            gap: "15px",
+          }}
+        >
           <Checkbox
             checked={q.is_required}
             onChange={(e) => updateField("is_required", e.target.checked)}
-          >
-            Required
-          </Checkbox>
+          />
 
           <Input
             placeholder="Question text"
@@ -88,6 +93,7 @@ const EditQuestionModal = ({
               value: t,
             }))}
             onChange={(val) => updateField("question_type", val)}
+            style={{ minWidth: "150px" }}
           />
 
           {(q.question_type === "single_choice" ||
@@ -112,7 +118,7 @@ const EditQuestionModal = ({
               </Button>
             </>
           )}
-        </Space>
+        </div>
       </Card>
     </Modal>
   );

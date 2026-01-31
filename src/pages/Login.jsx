@@ -37,7 +37,7 @@ export default function Login() {
         justifyContent: "center",
         background: "#f8f8f8 !important",
       }}
-      >
+    >
       <Card
         style={{
           width: 400,
@@ -49,7 +49,7 @@ export default function Login() {
           Login
         </Title>
 
-        <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
           <Input
             placeholder="Email"
             value={email}

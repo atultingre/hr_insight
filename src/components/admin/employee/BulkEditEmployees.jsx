@@ -49,7 +49,7 @@ export default function BulkEditEmployees() {
 
   return (
     <Card style={{ maxWidth: 500 }} title="Bulk Edit Employees">
-      <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+      <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
         {/* Department */}
         <div>
           <Text strong>Department</Text>

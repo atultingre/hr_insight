@@ -110,7 +110,7 @@ export default function QuestionnaireBuilder({ open, setOpen }) {
       destroyOnHidden
     >
       <Card>
-        <Space direction="vertical" size="middle" style={{ width: "100%" }}>
+        <Space orientation="vertical" size="middle" style={{ width: "100%" }}>
           <Input
             placeholder="Title"
             value={title}

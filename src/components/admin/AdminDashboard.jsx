@@ -39,6 +39,7 @@ export default function AdminDashboard() {
         questionnaires={questionnaires}
         activeTargetQ={activeTargetQ}
         setActiveTargetQ={setActiveTargetQ}
+        setQuestionnaires={setQuestionnaires}
       />
 
       <Divider />

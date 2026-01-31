@@ -97,18 +97,22 @@ export default function TargetingRulesUI({ questionnaireId, open, onClose }) {
       width={800}
       destroyOnHidden
     >
-      <Space direction="vertical" style={{ width: "100%" }}>
+      <Space orientation="vertical" style={{ width: "100%" }}>
         {rules.length === 0 && (
           <Text type="secondary">No targeting rules added</Text>
         )}
 
         {rules.map((r, i) => (
-          <Space key={i} style={{ width: "100%" }} align="start">
+          <div
+            key={i}
+            style={{ width: "100%", display: "flex", gap: "10px" }}
+            align="start"
+          >
             <Select
               mode="multiple"
               allowClear
               placeholder="Departments"
-              style={{ width: 260 }}
+              style={{ width: "100%" }}
               value={r.departments}
               options={departments.map((d) => ({
                 label: d,
@@ -121,7 +125,7 @@ export default function TargetingRulesUI({ questionnaireId, open, onClose }) {
               mode="multiple"
               allowClear
               placeholder="Designations"
-              style={{ width: 260 }}
+              style={{ width: "100%" }}
               value={r.designations}
               options={designations.map((d) => ({
                 label: d,
@@ -133,15 +137,20 @@ export default function TargetingRulesUI({ questionnaireId, open, onClose }) {
             <Button danger onClick={() => removeRule(i)}>
               ✕
             </Button>
-          </Space>
+          </div>
         ))}
 
-        <Space>
-          <Button onClick={addRule}>Add Rule</Button>
-          <Button type="primary" onClick={saveRules}>
+        <div
+          style={{ width: "100%", display: "flex", gap: "10px" }}
+          orientation="vertical"
+        >
+          <Button style={{ width: "50%" }} onClick={addRule}>
+            Add Rule
+          </Button>
+          <Button type="primary" style={{ width: "50%" }} onClick={saveRules}>
             Save Targeting
           </Button>
-        </Space>
+        </div>
       </Space>
     </Modal>
   );
