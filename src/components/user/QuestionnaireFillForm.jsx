@@ -2,8 +2,21 @@ import React from "react";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Input,
+  Radio,
+  Checkbox,
+  Rate,
+  Button,
+  Card,
+  Space,
+  Typography,
+} from "antd";
 import { storage, STORAGE_KEYS } from "../../services/storage";
 import { useAuth } from "../../state/AuthContext";
+
+const { Text, Title } = Typography;
+const { TextArea } = Input;
 
 const buildSchema = (questions) => {
   const shape = {};
@@ -78,7 +91,7 @@ export default function QuestionnaireFillForm({ questionnaire, onBack }) {
           <Controller
             name={`q_${q.id}`}
             control={control}
-            render={({ field }) => <input {...field} />}
+            render={({ field }) => <Input {...field} />}
           />
         );
 
@@ -87,54 +100,31 @@ export default function QuestionnaireFillForm({ questionnaire, onBack }) {
           <Controller
             name={`q_${q.id}`}
             control={control}
-            render={({ field }) => <textarea {...field} />}
+            render={({ field }) => <TextArea rows={4} {...field} />}
           />
         );
 
       case "single_choice":
-        return q.options_json.map((o, i) => (
+        return (
           <Controller
-            key={i}
             name={`q_${q.id}`}
             control={control}
             render={({ field }) => (
-              <label style={{ display: "block" }}>
-                <input
-                  type="radio"
-                  checked={field.value === o}
-                  onChange={() => field.onChange(o)}
-                />
-                {o}
-              </label>
+              <Radio.Group {...field} options={q.options_json} />
             )}
           />
-        ));
+        );
 
       case "multiple_choice":
-        return q.options_json.map((o, i) => (
+        return (
           <Controller
-            key={i}
             name={`q_${q.id}`}
             control={control}
             render={({ field }) => (
-              <label style={{ display: "block" }}>
-                <input
-                  type="checkbox"
-                  checked={(field.value || []).includes(o)}
-                  onChange={(e) => {
-                    const val = field.value || [];
-                    field.onChange(
-                      e.target.checked
-                        ? [...val, o]
-                        : val.filter((v) => v !== o),
-                    );
-                  }}
-                />
-                {o}
-              </label>
+              <Checkbox.Group {...field} options={q.options_json} />
             )}
           />
-        ));
+        );
 
       case "rating":
         return (
@@ -142,7 +132,11 @@ export default function QuestionnaireFillForm({ questionnaire, onBack }) {
             name={`q_${q.id}`}
             control={control}
             render={({ field }) => (
-              <input type="number" min="1" max="5" {...field} />
+              <Rate
+                {...field}
+                value={field.value || 0}
+                onChange={field.onChange}
+              />
             )}
           />
         );
@@ -153,28 +147,34 @@ export default function QuestionnaireFillForm({ questionnaire, onBack }) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <h3>{questionnaire.title}</h3>
+    <Card>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Title level={4}>{questionnaire.title}</Title>
 
-      {questionnaire.questions.map((q) => (
-        <div key={q.id} style={{ marginBottom: 12 }}>
-          <p>
-            {q.question_text}
-            {q.is_required && " *"}
-          </p>
+        <Space direction="vertical" size="large" style={{ width: "100%" }}>
+          {questionnaire.questions.map((q) => (
+            <div key={q.id}>
+              <Text strong>
+                {q.question_text}
+                {q.is_required && <Text type="danger"> *</Text>}
+              </Text>
 
-          {renderField(q)}
+              <div style={{ marginTop: 8 }}>{renderField(q)}</div>
 
-          {errors[`q_${q.id}`] && (
-            <div style={{ color: "red" }}>{errors[`q_${q.id}`].message}</div>
-          )}
-        </div>
-      ))}
+              {errors[`q_${q.id}`] && (
+                <Text type="danger">{errors[`q_${q.id}`].message}</Text>
+              )}
+            </div>
+          ))}
 
-      <button type="submit">Submit</button>
-      <button type="button" onClick={onBack} style={{ marginLeft: 10 }}>
-        Back
-      </button>
-    </form>
+          <Space>
+            <Button type="primary" htmlType="submit">
+              Submit
+            </Button>
+            <Button onClick={onBack}>Back</Button>
+          </Space>
+        </Space>
+      </form>
+    </Card>
   );
 }
