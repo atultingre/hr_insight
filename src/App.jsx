@@ -1,10 +1,15 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import EmployeeDashboard from "./components/user/EmployeeDashboard";
-import HRViewerDashboard from "./pages/hr/HRViewerDashboard";
+import HRViewerDashboard from "./components/admin/hr/HrDashboard.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import AdminDashboard from "./components/admin/AdminDashboard";
+import EmployeesDashboard from "./components/admin/employee/EmployeesDashboard.jsx";
+import HrDashboard from "./components/admin/hr/HrDashboard.jsx";
+import QuestionsDashboard from "./components/admin/questions/QuestionsDashboard.jsx";
+import SubmissionDashboard from "./components/admin/submissions/SubmissionDashboard.jsx";
+import ReportsDashboard from "./components/admin/reports/ReportsDashboard.jsx";
 
 export default function App() {
   return (
@@ -29,7 +34,14 @@ export default function App() {
               <AdminDashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<QuestionsDashboard />} />
+          <Route path="questionnaires" element={<QuestionsDashboard />} />
+          <Route path="employees" element={<EmployeesDashboard />} />
+          <Route path="submissions" element={<SubmissionDashboard />} />
+          <Route path="hr-access" element={<HrDashboard />} />
+          <Route path="reports" element={<ReportsDashboard />} />
+        </Route>
 
         <Route
           path="/hr-viewer"

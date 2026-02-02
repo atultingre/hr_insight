@@ -1,3 +1,4 @@
+
 import {
   FileTextOutlined,
   TeamOutlined,
@@ -7,6 +8,9 @@ import {
 } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { useTheme } from "../theme/ThemeContext";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useAuth } from "../state/AuthContext";
+import { HR_ADMIN_MENU } from "./sidebarMenuConfig";
 
 const { Sider } = Layout;
 
@@ -23,8 +27,14 @@ const logos = {
 
 const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
   const { mode } = useTheme(); // 🔥 theme from context
-
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
   const logoSrc = collapsed ? logos[mode].collapsed : logos[mode].full;
+
+  const filteredMenu = HR_ADMIN_MENU.filter(item =>
+    item.roles.includes(user.role)
+  );
 
   return (
     <Sider
@@ -33,6 +43,7 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
       collapsed={collapsed}
       width={SIDEBAR_WIDTH}
       collapsedWidth={SIDEBAR_COLLAPSED_WIDTH}
+
       style={{
         position: "fixed",
         left: 0,
@@ -40,6 +51,7 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
         bottom: 0,
         height: "100vh",
       }}
+
     >
       {/* LOGO */}
       <div
@@ -66,13 +78,9 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
       <Menu
         mode="inline"
         style={{ height: "100%", borderRight: 0 }}
-        items={[
-          { key: "1", icon: <FileTextOutlined />, label: "Questionnaires" },
-          { key: "2", icon: <TeamOutlined />, label: "Employees" },
-          { key: "3", icon: <SendOutlined />, label: "Submissions" },
-          { key: "4", icon: <SafetyCertificateOutlined />, label: "HR Access" },
-          { key: "5", icon: <BarChartOutlined />, label: "Reports" },
-        ]}
+        selectedKeys={[location.pathname]}
+        onClick={({ key }) => navigate(key)}
+        items={filteredMenu}
       />
     </Sider>
   );
