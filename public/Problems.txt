@@ -1,7 +1,8 @@
 Bugs:
 1. After creating employee not closing Add Employee modal - Not Resolved
-2. 
-3.
+2. After saving question not closing modal.
+3. Targeted question not showing to employee
+4.
 
 Features:
 1. Sidebar Navigation

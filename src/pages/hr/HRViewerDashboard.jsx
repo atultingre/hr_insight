@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import SubmissionViewer from "./SubmissionViewer";
+import SubmissionViewer from "../../components/admin/submissions/SubmissionViewer";
 import { storage } from "../../services/storage";
 import { useAuth } from "../../state/AuthContext";
 import { useNavigate } from "react-router-dom";

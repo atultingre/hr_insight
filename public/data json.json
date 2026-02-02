@@ -1,0 +1,12 @@
+Employees:
+[{"id":101,"full_name":"Employee User","employee_code":"EMP198","email":"employee@company.com","department":"Engineering","designation":"Developer","status":"active"}]
+
+questionnaires:
+[{"id":1769771652536,"title":"Family Details","description":"Please fill in your family details","questions":[{"id":1769771330848,"question_text":"First Name","question_type":"text","is_required":true,"options_json":["","",""],"display_order":1},{"id":1769771609868,"question_text":"Last Name","question_type":"text","is_required":true,"options_json":[],"display_order":2},{"id":1769771621600,"question_text":"Email","question_type":"text","is_required":true,"options_json":[],"display_order":3},{"question_text":"Phone Number","question_type":"text","is_required":true,"options_json":[],"id":1769885226619,"display_order":4}],"is_active":true,"created_at":"2026-01-30T11:14:12.536Z"},{"id":1769996051822,"title":"new survey for emial marketing","description":"","questions":[{"id":1769996029929,"question_text":"Name","question_type":"text","is_required":false,"options_json":[],"display_order":1},{"id":1769996036976,"question_text":"Emp code","question_type":"text","is_required":true,"options_json":[],"display_order":2}],"is_active":true,"created_at":"2026-02-02T01:34:11.822Z"}]
+
+submissions:
+[{"id":1769772736589,"questionnaire_id":1769771652536,"employee_id":101,"submitted_at":"2026-01-30T11:32:16.589Z","status":"submitted","answers":[{"question_id":1769771330848,"answer_json":"Atul"},{"question_id":1769771609868,"answer_json":"Tingre"},{"question_id":1769771621600,"answer_json":"atultingre.work@gmail.com"},{"question_id":1769771631885,"answer_json":"Avitulya Nivas, A26, Laijai Nagri, Kabra Nagar"}]}]
+
+targets:
+[{"id":1769772685303.6672,"questionnaire_id":1769772630486,"department":"Engineering","designation":null},{"id":1769772983115.643,"questionnaire_id":1769772961888,"department":"Engineering","designation":null},{"id":1769853100791.0125,"questionnaire_id":1769852461730,"department":"Finance","designation":null},{"id":1769995807089.3953,"questionnaire_id":1769771652536,"departments":["Engineering","HR","Email Marketing"],"designations":["Web Developer"]},{"id":1769996899089.015,"questionnaire_id":1769996051822,"departments":["Email Marketing"],"designations":[]}]
+

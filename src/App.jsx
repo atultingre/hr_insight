@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
-import EmployeeDashboard from "./pages/employee/EmployeeDashboard";
+import EmployeeDashboard from "./components/user/EmployeeDashboard";
 import HRViewerDashboard from "./pages/hr/HRViewerDashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
