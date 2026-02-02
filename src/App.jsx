@@ -23,18 +23,18 @@ export default function App() {
         />
 
         <Route
-          path="/hr-admin"
+          path="/admin"
           element={
-            <ProtectedRoute role="hr_admin">
+            <ProtectedRoute role="admin">
               <AdminDashboard />
             </ProtectedRoute>
           }
         />
 
         <Route
-          path="/hr-viewer"
+          path="/viewer"
           element={
-            <ProtectedRoute role="hr_viewer">
+            <ProtectedRoute role="viewer">
               <HRViewerDashboard />
             </ProtectedRoute>
           }
