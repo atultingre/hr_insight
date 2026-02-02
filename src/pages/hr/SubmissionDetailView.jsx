@@ -1,64 +1,68 @@
-// ========================
-// MUI setup (UI polish)
-// ========================
-import {
-  Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Select,
-  MenuItem,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-} from "@mui/material";
+import { Descriptions, Modal, Table, Typography } from "antd";
 
-// ========================
-// src/pages/hr/SubmissionDetailView.jsx
-// ========================
-import React from "react";
+const { Text } = Typography;
 
 export function SubmissionDetailView({ open, onClose, submission }) {
   if (!submission) return null;
 
-  return (
-    <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-      <DialogTitle>Submission Details</DialogTitle>
-      <DialogContent>
-        <p>
-          <b>Employee:</b> {submission.employee_name}
-        </p>
-        <p>
-          <b>Questionnaire:</b> {submission.questionnaire}
-        </p>
-        <p>
-          <b>Submitted At:</b> {submission.submitted_at}
-        </p>
+  // ✅ Join answers with questions using question_id
+  const answerRows = submission.answers.map((ans) => {
+    const q = submission.questions.find((q) => q.id === ans.question_id);
 
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell>Question</TableCell>
-              <TableCell>Answer</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {submission.answers.map((a, i) => (
-              <TableRow key={i}>
-                <TableCell>{a.question_text}</TableCell>
-                <TableCell>
-                  {Array.isArray(a.answer_json)
-                    ? a.answer_json.join(", ")
-                    : String(a.answer_json)}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </DialogContent>
-    </Dialog>
+    return {
+      ...ans,
+      question_text: q?.question_text || "Unknown Question",
+    };
+  });
+
+  const columns = [
+    {
+      title: "Question",
+      dataIndex: "question_text",
+      key: "question",
+      render: (text, record) => <Text strong>{text}</Text>,
+    },
+    {
+      title: "Answer",
+      key: "answer",
+      render: (_, record) =>
+        Array.isArray(record.answer_json)
+          ? record.answer_json.join(", ")
+          : String(record.answer_json),
+    },
+  ];
+
+  return (
+    <Modal
+      open={open}
+      onCancel={onClose}
+      footer={null}
+      title="Submission Details"
+      width={800}
+    >
+      <Descriptions
+        bordered
+        size="small"
+        column={1}
+        style={{ marginBottom: 16 }}
+      >
+        <Descriptions.Item label="Employee">
+          {submission.employee_name}
+        </Descriptions.Item>
+        <Descriptions.Item label="Questionnaire">
+          {submission.questionnaire}
+        </Descriptions.Item>
+        <Descriptions.Item label="Submitted At">
+          {submission.submitted_at}
+        </Descriptions.Item>
+      </Descriptions>
+
+      <Table
+        rowKey="question_id"
+        columns={columns}
+        dataSource={answerRows}
+        pagination={false}
+      />
+    </Modal>
   );
 }
