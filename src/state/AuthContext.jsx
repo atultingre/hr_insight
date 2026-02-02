@@ -4,35 +4,63 @@ import { storage, STORAGE_KEYS } from "../services/storage";
 const AuthContext = createContext();
 
 const seedInitialData = () => {
-if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
-  storage.set(STORAGE_KEYS.USERS, [
-    {
-      id: 1,
-      email: "employee@company.com",
-      password: "employee123",
-      role: "employee",
-      employee_id: 101,
-      status: "active",
-    },
-    {
-      id: 2,
-      email: "admin@company.com",
-      password: "admin123",
-      role: "admin",
-      employee_id: 1,
-      status: "active",
-    },
-    {
-      id: 3,
-      email: "viewer@company.com",
-      password: "viewer123",
-      role: "viewer",
-      employee_id: 2,
-      status: "active",
-    },
-  ]);
-}
+  if (!localStorage.getItem(STORAGE_KEYS.EMPLOYEES)) {
+    storage.set(STORAGE_KEYS.EMPLOYEES, [
+      {
+        id: 101,
+        full_name: "Employee User",
+        email: "employee@company.com",
+        department: "Engineering",
+        designation: "Developer",
+        status: "active",
+      },
+      {
+        id: 1,
+        full_name: "HR Admin",
+        email: "admin@company.com",
+        department: "HR",
+        designation: "Admin",
+        status: "active",
+      },
+      {
+        id: 2,
+        full_name: "HR Viewer",
+        email: "viewer@company.com",
+        department: "HR",
+        designation: "Viewer",
+        status: "active",
+      },
+    ]);
+  }
 
+  if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
+    storage.set(STORAGE_KEYS.USERS, [
+      {
+        id: 1,
+        email: "employee@company.com",
+        password: "employee123",
+        role: "employee",
+        employee_id: 101,
+        status: "active",
+      },
+      {
+        id: 2,
+        email: "admin@company.com",
+        password: "admin123",
+        role: "hr_admin",
+        employee_id: 1,
+        status: "active",
+      },
+      {
+        id: 3,
+        email: "viewer@company.com",
+        password: "viewer123",
+        role: "hr_viewer",
+        employee_id: 2,
+        status: "active",
+      },
+    ]);
+  }
 
   if (!localStorage.getItem(STORAGE_KEYS.QUESTIONNAIRES))
     storage.set(STORAGE_KEYS.QUESTIONNAIRES, []);
@@ -45,7 +73,7 @@ if (!localStorage.getItem(STORAGE_KEYS.USERS)) {
 };
 
 export const AuthProvider = ({ children }) => {
-
+  // ✅ initialize user directly
   const [user, setUser] = useState(() => {
     try {
       const stored = localStorage.getItem("auth_user");
