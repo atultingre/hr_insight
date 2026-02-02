@@ -30,6 +30,7 @@ const EmployeesList = () => {
   const [showBulkImport, setShowBulkImport] = useState(false);
   const [showBulkEdit, setShowBulkEdit] = useState(false);
   const [activeModal, setActiveModal] = useState(null);
+  const [showEmployees, setShowEmployees] = useState(false);
 
   useEffect(() => {
     setEmployees(storage.get(STORAGE_KEYS.EMPLOYEES, []));

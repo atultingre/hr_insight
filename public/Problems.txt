@@ -1,0 +1,10 @@
+Bugs:
+1. After creating employee not closing Add Employee modal - Not Resolved
+2. 
+3.
+
+Features:
+1. Sidebar Navigation
+2. Route Fix according to Role
+3. Employee login Dashbord Layout
+4. HR Login Viewer Access

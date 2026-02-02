@@ -1,10 +1,6 @@
-import React, { useState } from "react";
-import { Button, Modal } from "antd";
-import QuestionnaireBuilder from "../../../pages/hr/QuestionnaireBuilder";
+import { Button } from "antd";
 
-const CreateQuestions = () => {
-  const [open, setOpen] = useState(false);
-
+const CreateQuestions = ({ open, setOpen }) => {
   return (
     <div>
       <Button
@@ -18,11 +14,8 @@ const CreateQuestions = () => {
       >
         Create Questionnaire
       </Button>
-
-      <QuestionnaireBuilder open={open} setOpen={setOpen} />
     </div>
   );
 };
 
 export default CreateQuestions;
-;

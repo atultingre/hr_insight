@@ -1,6 +1,3 @@
-// ========================
-// src/pages/Login.jsx
-// ========================
 import { Alert, Button, Card, Divider, Input, Space, Typography } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
