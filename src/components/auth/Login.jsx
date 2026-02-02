@@ -1,7 +1,7 @@
 import { Alert, Button, Card, Divider, Input, Space, Typography } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../state/AuthContext";
+import { useAuth } from "../../state/AuthContext";
 
 const { Title, Text } = Typography;
 const BRAND_COLOR = "#da1f26";

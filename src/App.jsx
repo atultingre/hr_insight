@@ -1,10 +1,10 @@
 import { Routes, Route } from "react-router-dom";
-import Login from "./pages/Login";
 import EmployeeDashboard from "./components/user/EmployeeDashboard";
 import HRViewerDashboard from "./pages/hr/HRViewerDashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import AppLayout from "./layouts/AppLayout";
 import AdminDashboard from "./components/admin/AdminDashboard";
+import Login from "./components/auth/Login";
 
 export default function App() {
   return (

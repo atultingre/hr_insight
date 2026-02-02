@@ -13,10 +13,10 @@ export default function AdminDashboard() {
       <EmployeesDashboard />
       <Divider />
       <SubmissionDashboard />
-      <Divider />
-      <HrDashboard />
-      <Divider />
-      <ReportsDashboard />
+      {/* <Divider /> */}
+      {/* <HrDashboard /> */}
+      {/* <Divider /> */}
+      {/* <ReportsDashboard /> */}
     </>
   );
 }
