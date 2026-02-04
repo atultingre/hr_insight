@@ -33,17 +33,12 @@ export default function HRViewerDashboard() {
 
   return (
     <div style={{ padding: 20 }}>
-      <button onClick={handleLogout} style={{ float: "right" }}>
-        Logout
-      </button>
-      <h2>HR Viewer Dashboard</h2>
-
       {scopes.map((scope, i) => (
         <div key={i} style={{ marginBottom: 30 }}>
-          <h4>
+          {/* <h4>
             Scope: {scope.department || "All Departments"} /{" "}
             {scope.designation || "All Designations"}
-          </h4>
+          </h4> */}
 
           <SubmissionViewer scope={scope} />
         </div>

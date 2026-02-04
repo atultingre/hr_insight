@@ -1,5 +1,5 @@
 import { Button, Card, Divider } from "antd";
-import React, { useState } from "react";
+import { useState } from "react";
 import HRAccessScopes from "../../../pages/hr/HRAccessScopes";
 
 const HrDashboard = () => {

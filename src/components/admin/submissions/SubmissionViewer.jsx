@@ -17,8 +17,6 @@ export default function SubmissionViewer({ scope }) {
     console.log("employees", employees);
     console.log("questionnaires", questionnaires);
 
-    
-
     const joined = submissions.map((s) => {
       const emp = employees.find((e) => e.id === s.employee_id);
       const q = questionnaires.find((q) => q.id === s.questionnaire_id);
@@ -87,7 +85,7 @@ export default function SubmissionViewer({ scope }) {
 
   return (
     <Card>
-      <Title level={4}>Submissions</Title>
+      <Title level={4}>Recorded Submissions</Title>
 
       {rows.length === 0 ? (
         <Empty description="No submissions in scope" />
