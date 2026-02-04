@@ -1,5 +1,18 @@
 import React, { useEffect, useState } from "react";
+import {
+  Select,
+  Input,
+  Button,
+  Table,
+  Space,
+  Typography,
+  message,
+  Card,
+} from "antd";
 import { storage, STORAGE_KEYS } from "../../services/storage";
+
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function HRAccessScopes() {
   const [scopes, setScopes] = useState([]);
@@ -19,7 +32,7 @@ export default function HRAccessScopes() {
 
   const addScope = () => {
     if (!form.hr_user_id) {
-      alert("Select HR Viewer");
+      message.warning("Select HR Viewer");
       return;
     }
 
@@ -43,72 +56,88 @@ export default function HRAccessScopes() {
     });
   };
 
+  const columns = [
+    {
+      title: "HR Viewer",
+      dataIndex: "hr_user_id",
+      key: "hr_user_id",
+      render: (id) => users.find((u) => u.id === id)?.email || "-",
+    },
+    {
+      title: "Department",
+      dataIndex: "department",
+      key: "department",
+      render: (v) => v || "All",
+    },
+    {
+      title: "Designation",
+      dataIndex: "designation",
+      key: "designation",
+      render: (v) => v || "All",
+    },
+    {
+      title: "Employee",
+      dataIndex: "employee_id",
+      key: "employee_id",
+      render: (v) => v || "-",
+    },
+  ];
+
   return (
-    <div>
-      <h3>HR Access Scopes</h3>
+    <Card>
+      <Title level={4}>HR Access Scopes</Title>
 
       {/* Add Scope */}
-      <div style={{ marginBottom: 20 }}>
-        <select
-          value={form.hr_user_id}
-          onChange={(e) => setForm({ ...form, hr_user_id: e.target.value })}
+      <Space wrap style={{ marginBottom: 24 }}>
+        <Select
+          placeholder="Select HR Viewer"
+          style={{ width: 220 }}
+          value={form.hr_user_id || undefined}
+          onChange={(value) => setForm({ ...form, hr_user_id: value })}
         >
-          <option value="">Select HR Viewer</option>
           {users
             .filter((u) => u.role === "hr_viewer")
             .map((u) => (
-              <option key={u.id} value={u.id}>
+              <Option key={u.id} value={u.id}>
                 {u.email}
-              </option>
+              </Option>
             ))}
-        </select>
+        </Select>
 
-        <input
+        <Input
           placeholder="Department (optional)"
+          style={{ width: 200 }}
           value={form.department}
           onChange={(e) => setForm({ ...form, department: e.target.value })}
         />
 
-        <input
+        <Input
           placeholder="Designation (optional)"
+          style={{ width: 200 }}
           value={form.designation}
           onChange={(e) => setForm({ ...form, designation: e.target.value })}
         />
 
-        <input
+        <Input
           placeholder="Employee ID (optional)"
+          style={{ width: 180 }}
           value={form.employee_id}
           onChange={(e) => setForm({ ...form, employee_id: e.target.value })}
         />
 
-        <button onClick={addScope}>Add Scope</button>
-      </div>
+        <Button type="primary" onClick={addScope}>
+          Add Scope
+        </Button>
+      </Space>
 
       {/* Existing Scopes */}
-      {scopes.length === 0 ? (
-        <p>No scopes defined</p>
-      ) : (
-        <table border="1" cellPadding="6">
-          <thead>
-            <tr>
-              <th>HR Viewer</th>
-              <th>Department</th>
-              <th>Designation</th>
-              <th>Employee</th>
-            </tr>
-          </thead>
-          <tbody>
-            {scopes.map((s) => (
-              <tr key={s.id}>
-                <td>{users.find((u) => u.id === s.hr_user_id)?.email}</td>
-                <td>{s.department || "All"}</td>
-                <td>{s.designation || "All"}</td>
-                <td>{s.employee_id || "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </div>
+      <Table
+        rowKey="id"
+        columns={columns}
+        dataSource={scopes}
+        locale={{ emptyText: "No scopes defined" }}
+        pagination={false}
+      />
+    </Card>
   );
 }
