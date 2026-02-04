@@ -1,6 +1,6 @@
 import { Divider } from "antd";
 import { useEffect, useState } from "react";
-import QuestionnaireBuilder from "../../../pages/hr/QuestionnaireBuilder";
+import QuestionnaireBuilder from "./QuestionnaireBuilder";
 import { storage, STORAGE_KEYS } from "../../../services/storage";
 import CreateQuestions from "./CreateQuestions";
 import Questions from "./Questions";

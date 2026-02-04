@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { storage, STORAGE_KEYS } from "../../../services/storage";
-import { SubmissionDetailView } from "../../../pages/hr/SubmissionDetailView";
+import { SubmissionDetailView } from "../submissions/SubmissionDetailView";
 import { Table, Card, Button, Empty, Typography } from "antd";
 
 const { Title } = Typography;

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage";
 
 export default function ManageEmployees() {
   const [employees, setEmployees] = useState([]);

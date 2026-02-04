@@ -9,7 +9,7 @@ import {
   Select,
   MenuItem,
 } from "@mui/material";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage";
 import { SubmissionDetailView } from "./SubmissionDetailView";
 
 export default function SubmissionList() {

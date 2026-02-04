@@ -1,4 +1,4 @@
-import HRAccessScopes from "../../../pages/hr/HRAccessScopes";
+import HRAccessScopes from "./HRAccessScopes";
 
 const HrDashboard = () => {
   return (

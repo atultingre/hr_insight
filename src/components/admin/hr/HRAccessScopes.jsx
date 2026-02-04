@@ -9,7 +9,7 @@ import {
   message,
   Card,
 } from "antd";
-import { storage, STORAGE_KEYS } from "../../services/storage";
+import { storage, STORAGE_KEYS } from "../../../services/storage";
 
 const { Title } = Typography;
 const { Option } = Select;
