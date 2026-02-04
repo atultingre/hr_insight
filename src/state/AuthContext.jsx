@@ -37,40 +37,53 @@ const seedInitialData = () => {
     storage.set(STORAGE_KEYS.USERS, [
       {
         id: 1,
+        full_name: "Employee User",
         email: "employee@company.com",
         password: "employee123",
+        department: "Engineering",
+        designation: "Developer",
         role: "employee",
-        employee_id: 101,
+        employee_id: 101, // matches EMPLOYEES.id
         status: "active",
       },
       {
         id: 2,
+        full_name: "HR Admin",
         email: "admin@company.com",
         password: "admin123",
+        department: "HR",
+        designation: "Admin",
         role: "hr_admin",
-        employee_id: 1,
+        employee_id: 1, // matches EMPLOYEES.id
         status: "active",
       },
       {
         id: 3,
+        full_name: "HR Viewer",
         email: "viewer@company.com",
         password: "viewer123",
+        department: "HR",
+        designation: "Viewer",
         role: "hr_viewer",
-        employee_id: 2,
+        employee_id: 2, // matches EMPLOYEES.id
         status: "active",
       },
     ]);
   }
 
-  if (!localStorage.getItem(STORAGE_KEYS.QUESTIONNAIRES))
+  if (!localStorage.getItem(STORAGE_KEYS.QUESTIONNAIRES)) {
     storage.set(STORAGE_KEYS.QUESTIONNAIRES, []);
+  }
 
-  if (!localStorage.getItem(STORAGE_KEYS.TARGETS))
+  if (!localStorage.getItem(STORAGE_KEYS.TARGETS)) {
     storage.set(STORAGE_KEYS.TARGETS, []);
+  }
 
-  if (!localStorage.getItem(STORAGE_KEYS.SUBMISSIONS))
+  if (!localStorage.getItem(STORAGE_KEYS.SUBMISSIONS)) {
     storage.set(STORAGE_KEYS.SUBMISSIONS, []);
+  }
 };
+
 
 export const AuthProvider = ({ children }) => {
   // ✅ initialize user directly

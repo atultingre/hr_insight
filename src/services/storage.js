@@ -19,6 +19,7 @@ export const STORAGE_KEYS = {
   QUESTIONNAIRES: "questionnaires",
   SUBMISSIONS: "submissions",
   EMPLOYEES: "employees",
+  USERS: "users",
   TARGETS: "questionnaire_targets",
 };
 
