@@ -1,4 +1,3 @@
-
 import {
   FileTextOutlined,
   TeamOutlined,
@@ -10,7 +9,7 @@ import { Layout, Menu } from "antd";
 import { useTheme } from "../theme/ThemeContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../state/AuthContext";
-import { HR_ADMIN_MENU } from "./sidebarMenuConfig";
+import { EMPLOYEE_MENU, HR_ADMIN_MENU } from "./sidebarMenuConfig";
 
 const { Sider } = Layout;
 
@@ -32,9 +31,13 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
   const location = useLocation();
   const logoSrc = collapsed ? logos[mode].collapsed : logos[mode].full;
 
-  const filteredMenu = HR_ADMIN_MENU.filter(item =>
-    item.roles.includes(user.role)
-  );
+  // ✅ Role based menu
+  const menuConfig =
+    user.role === "hr_admin"
+      ? HR_ADMIN_MENU
+      : user.role === "employee"
+        ? EMPLOYEE_MENU
+        : [];
 
   return (
     <Sider
@@ -43,7 +46,6 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
       collapsed={collapsed}
       width={SIDEBAR_WIDTH}
       collapsedWidth={SIDEBAR_COLLAPSED_WIDTH}
-
       style={{
         position: "fixed",
         left: 0,
@@ -51,7 +53,6 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
         bottom: 0,
         height: "100vh",
       }}
-
     >
       {/* LOGO */}
       <div
@@ -80,7 +81,7 @@ const AppSidebar = ({ collapsed, SIDEBAR_WIDTH, SIDEBAR_COLLAPSED_WIDTH }) => {
         style={{ height: "100%", borderRight: 0 }}
         selectedKeys={[location.pathname]}
         onClick={({ key }) => navigate(key)}
-        items={filteredMenu}
+        items={menuConfig}
       />
     </Sider>
   );

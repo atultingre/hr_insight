@@ -10,6 +10,8 @@ import HrDashboard from "./components/admin/hr/HrDashboard.jsx";
 import QuestionsDashboard from "./components/admin/questions/QuestionsDashboard.jsx";
 import SubmissionDashboard from "./components/admin/submissions/SubmissionDashboard.jsx";
 import ReportsDashboard from "./components/admin/reports/ReportsDashboard.jsx";
+import EmployeeAssignedQuestions from "./components/user/EmployeeAssignedQuestions.jsx";
+import SubmissionHistory from "./components/user/SubmissionHistory.jsx";
 
 export default function App() {
   return (
@@ -25,7 +27,10 @@ export default function App() {
               <EmployeeDashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<EmployeeAssignedQuestions />} />
+          <Route path="submissions" element={<SubmissionHistory />} />
+        </Route>
 
         <Route
           path="/hr-admin"

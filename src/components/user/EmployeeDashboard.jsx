@@ -1,14 +1,9 @@
-import { useState } from "react";
-
-import EmployeeAssignedQuestions from "./EmployeeAssignedQuestions";
-import QuestionnaireFillForm from "./QuestionnaireFillForm";
-import SubmissionHistory from "./SubmissionHistory";
+import { Outlet } from "react-router-dom";
 
 export default function EmployeeDashboard() {
   return (
     <div>
-      <EmployeeAssignedQuestions />
-      <SubmissionHistory />
+      <Outlet />
     </div>
   );
 }

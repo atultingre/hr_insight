@@ -38,3 +38,18 @@ export const HR_ADMIN_MENU = [
     roles: ["hr_admin"],
   },
 ];
+
+export const EMPLOYEE_MENU = [
+  {
+    key: "/employee",
+    icon: <FileTextOutlined />,
+    label: "Questionnaires",
+    roles: ["employee"],
+  },
+  {
+    key: "/employee/submissions",
+    icon: <SendOutlined />,
+    label: "Submissions",
+    roles: ["employee"],
+  },
+];
