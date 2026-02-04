@@ -16,11 +16,11 @@ const { Sider } = Layout;
 const logos = {
   light: {
     full: "https://tdimg.techdogs.com/assets/techdogs-light.webp",
-    collapsed: "./logos/td-dark.png",
+    collapsed: "/logos/td-dark.png",
   },
   dark: {
     full: "https://tdimg.techdogs.com/assets/techdogs.webp",
-    collapsed: "./logos/td-light.png",
+    collapsed: "/logos/td-light.png",
   },
 };
 
